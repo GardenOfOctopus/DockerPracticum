@@ -1,0 +1,32 @@
+version: '1'
+
+services:
+  web_app:
+    build: ./web-app/
+    ports: 
+      - 5000:5000
+    depends_on:
+      - db
+    links:
+      - db
+    
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=database
+    volumes:
+      - db:/var/lib/postgres
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+volumes:
+  db:
+    driver: local
+
